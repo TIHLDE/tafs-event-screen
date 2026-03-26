@@ -1,9 +1,7 @@
 import type { EventList, NewsItem, Paginated } from "./types";
 
-const EVENTS_URL =
-  "https://api.tihlde.org/events/?expired=false&ordering=start_date&page_size=100";
-const NEWS_URL =
-  "https://api.tihlde.org/news/?ordering=-created_at&page_size=20";
+const EVENTS_URL = "/api/tihlde/events";
+const NEWS_URL = "/api/tihlde/news";
 
 export async function fetchAllEvents(): Promise<EventList[]> {
   const all: EventList[] = [];

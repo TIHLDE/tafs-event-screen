@@ -9,6 +9,12 @@ pnpm install
 pnpm dev
 ```
 
+Set the required server-side environment variable before running:
+
+```bash
+TIHLDE_API_BASE_URL=https://api.tihlde.org
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
