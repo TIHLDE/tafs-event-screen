@@ -63,7 +63,7 @@ function SlideBackground({
         fill
         className={
           blur
-            ? "object-cover blur-[12px] brightness-[0.4]"
+            ? "object-cover blur-md brightness-[0.4]"
             : "object-cover brightness-[0.4]"
         }
         sizes="100vw"
@@ -72,7 +72,7 @@ function SlideBackground({
         onError={() => setFailed(true)}
         aria-hidden
       />
-      <div className="absolute inset-0 bg-[var(--background)]/35" aria-hidden />
+      <div className="absolute inset-0 bg-var(--background)/35" aria-hidden />
     </>
   );
 }
@@ -111,7 +111,7 @@ function EventSlide({
                 : "mb-0 flex w-full max-w-4xl items-start justify-between gap-4"
             }
           >
-            <span className="rounded-full border border-[var(--border)] bg-black/35 px-3 py-1 text-sm font-medium text-[var(--primary)] backdrop-blur-sm">
+            <span className="rounded-full border border-border bg-black/35 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm">
               {event.category.text}
             </span>
           </div>
@@ -124,7 +124,7 @@ function EventSlide({
           <p className="mt-4 text-2xl text-white/95">
             {formatEventDateLong(event.start_date)}
           </p>
-          <p className="mt-2 text-xl text-[var(--foreground)] line-clamp-2">
+          <p className="mt-2 text-xl text-foreground line-clamp-2">
             {event.location}
           </p>
         </div>
@@ -155,7 +155,7 @@ function EventCardImage({
 }) {
   const [failed, setFailed] = useState(!src?.trim());
   if (!src?.trim() || failed) {
-    return <div className="h-full w-full bg-[var(--secondary)]" aria-hidden />;
+    return <div className="h-full w-full bg-secondary" aria-hidden />;
   }
   return (
     <Image
@@ -198,7 +198,7 @@ function NewsSlide({
         <h2 className="font-display max-w-5xl text-[clamp(2.25rem,5vw,4.5rem)] font-bold leading-snug tracking-tight text-white line-clamp-3 pt-[0.1em] pb-[0.22em]">
           {news.title}
         </h2>
-        <p className="mt-6 max-w-4xl text-2xl font-light leading-snug text-[var(--muted-foreground)] line-clamp-3">
+        <p className="mt-6 max-w-4xl text-2xl font-light leading-snug text-foreground line-clamp-3">
           {news.header}
         </p>
       </div>
@@ -209,18 +209,18 @@ function NewsSlide({
 function BottomCard({ event }: { event: EventList }) {
   const bg = categoryBackgroundColor(event.category.id);
   return (
-    <article className="flex w-[200px] shrink-0 flex-col overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)]">
-      <div className="relative h-[100px] w-full bg-[var(--secondary)]">
+    <article className="flex w-[200px] shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card">
+      <div className="relative h-[100px] w-full bg-secondary">
         <ThumbImage src={event.image} alt={event.image_alt} fallback={bg} />
       </div>
       <div className="flex flex-1 flex-col gap-1 p-2.5">
         <h3 className="line-clamp-2 text-xs font-bold leading-snug text-white">
           {event.title}
         </h3>
-        <p className="text-xs font-semibold text-[var(--primary)]">
+        <p className="text-xs font-semibold text-primary">
           {formatEventDateShort(event.start_date)}
         </p>
-        <p className="line-clamp-1 text-[11px] text-[var(--muted-foreground)]">
+        <p className="line-clamp-1 text-[11px] text-muted-foreground">
           {event.location}
         </p>
       </div>
@@ -278,7 +278,7 @@ function BottomStrip({ events }: { events: EventList[] }) {
 
   if (events.length === 0) {
     return (
-      <div className="flex h-full items-center justify-center border-t border-[var(--border)] bg-[var(--card)]/40 px-6 text-[var(--muted-foreground)]">
+      <div className="flex h-full items-center justify-center border-t border-border bg-card/40 px-6 text-muted-foreground">
         Ingen arrangementer lenger enn én uke frem i tid akkurat nå.
       </div>
     );
@@ -289,7 +289,7 @@ function BottomStrip({ events }: { events: EventList[] }) {
   return (
     <div
       ref={viewportRef}
-      className="flex h-full min-h-0 items-center overflow-hidden border-t border-[var(--border)] bg-[var(--card)]/30 px-2"
+      className="flex h-full min-h-0 items-center overflow-hidden border-t border-border bg-card/30 px-2"
     >
       <div
         ref={trackRef}
@@ -327,7 +327,7 @@ function SlideshowCarousel({ slides }: { slides: Slide[] }) {
         {slides.map((slide, i) => (
           <div
             key={`${slide.kind}-${slide.data.id}`}
-            className="absolute inset-0 transition-opacity duration-[600ms] ease-in-out"
+            className="absolute inset-0 transition-opacity duration-600 ease-in-out"
             style={{
               opacity: i === slideIndex ? 1 : 0,
               zIndex: i === slideIndex ? 2 : 1,
@@ -342,7 +342,7 @@ function SlideshowCarousel({ slides }: { slides: Slide[] }) {
           </div>
         ))}
       </div>
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-1 bg-[var(--secondary)]/80">
+      <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-1 bg-secondary/80">
         <div
           key={slideIndex}
           className="h-full w-full origin-left scale-x-0 bg-[hsl(219_100%_81%)] animate-slide-progress"
@@ -399,11 +399,11 @@ export function TihldeTvScreen() {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
-      <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-[var(--border)] px-8">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-background text-foreground">
+      <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-border px-8">
         <TihldeLogo size="large" />
         <div className="flex items-end gap-5">
-          <span className="pb-1 text-lg text-[var(--muted-foreground)]">
+          <span className="pb-1 text-lg text-muted-foreground">
             {clockNow ? formatTodayLong(clockNow) : "\u00a0"}
           </span>
           <time
@@ -418,7 +418,7 @@ export function TihldeTvScreen() {
       <div className="flex min-h-0 flex-1 flex-col">
         <section className="relative h-[72%] min-h-0 shrink-0 overflow-hidden">
           {loadError ? (
-            <div className="flex h-full items-center justify-center px-8 text-center text-xl text-[var(--muted-foreground)]">
+            <div className="flex h-full items-center justify-center px-8 text-center text-xl text-muted-foreground">
               {loadError}
             </div>
           ) : slides.length === 0 ? (
@@ -426,7 +426,7 @@ export function TihldeTvScreen() {
               <p className="text-2xl font-medium text-white">
                 Ingen innhold å vise akkurat nå
               </p>
-              <p className="max-w-xl text-[var(--muted-foreground)]">
+              <p className="max-w-xl text-muted-foreground">
                 Det er ingen kommende arrangementer innen de neste sju dagene,
                 og ingen nyheter er tilgjengelige for lysbilder.
               </p>
