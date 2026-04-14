@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tafs-event-screen:latest
+    ports:
+      - "3000:3000"
+    environment:
+      TIHLDE_API_BASE_URL: ${TIHLDE_API_BASE_URL:-https://api.tihlde.org}
+    restart: unless-stopped
