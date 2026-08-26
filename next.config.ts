@@ -14,11 +14,6 @@ const nextConfig: NextConfig = {
         hostname: "*.tihlde.org",
         pathname: "/**",
       },
-      {
-        protocol: "https",
-        hostname: "leptonstoragepro.blob.core.windows.net",
-        pathname: "/**",
-      },
     ],
   },
 };
