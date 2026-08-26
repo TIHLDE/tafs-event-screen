@@ -74,8 +74,17 @@ const CATEGORY_BG: readonly string[] = [
   "hsl(350 45% 22%)",
 ] as const;
 
-export function categoryBackgroundColor(categoryId: number): string {
-  const idx = Math.abs(categoryId) % CATEGORY_BG.length;
+/**
+ * Photon identifiserer kategorier med slug, ikke med det løpenummeret Lepton
+ * hadde. Fargen utledes derfor av slug-en: samme kategori gir alltid samme
+ * farge, og nye kategorier får en uten at noe må vedlikeholdes.
+ */
+export function categoryBackgroundColor(categorySlug: string): string {
+  let hash = 0;
+  for (let i = 0; i < categorySlug.length; i++) {
+    hash = (hash * 31 + categorySlug.charCodeAt(i)) | 0;
+  }
+  const idx = Math.abs(hash) % CATEGORY_BG.length;
   return CATEGORY_BG[idx]!;
 }
 

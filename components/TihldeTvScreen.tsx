@@ -85,7 +85,7 @@ function EventSlide({
   isActive: boolean;
 }) {
   const hasImage = Boolean(event.image?.trim());
-  const bgColor = categoryBackgroundColor(event.category.id);
+  const bgColor = categoryBackgroundColor(event.category.slug);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
@@ -112,7 +112,7 @@ function EventSlide({
             }
           >
             <span className="rounded-full border border-border bg-black/35 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm">
-              {event.category.text}
+              {event.category.label}
             </span>
           </div>
           <h2
@@ -207,7 +207,7 @@ function NewsSlide({
 }
 
 function BottomCard({ event }: { event: EventList }) {
-  const bg = categoryBackgroundColor(event.category.id);
+  const bg = categoryBackgroundColor(event.category.slug);
   return (
     <article className="flex w-[200px] shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card">
       <div className="relative h-[100px] w-full bg-secondary">

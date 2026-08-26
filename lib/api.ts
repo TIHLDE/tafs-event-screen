@@ -1,23 +1,19 @@
-import type { EventList, NewsItem, Paginated } from "./types";
+import type { EventList, NewsItem } from "./types";
 
 const EVENTS_URL = "/api/tihlde/events";
 const NEWS_URL = "/api/tihlde/news";
 
+/**
+ * Rutene under `app/api/tihlde/` har allerede fulgt Photons paginering til
+ * ende og oversatt svaret, så her er det bare én liste å hente.
+ */
 export async function fetchAllEvents(): Promise<EventList[]> {
-  const all: EventList[] = [];
-  let url: string | null = EVENTS_URL;
-
-  while (url) {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(`Events fetch failed: ${res.status}`);
-    }
-    const data = (await res.json()) as Paginated<EventList>;
-    all.push(...data.results);
-    url = data.next;
+  const res = await fetch(EVENTS_URL);
+  if (!res.ok) {
+    throw new Error(`Events fetch failed: ${res.status}`);
   }
-
-  return all;
+  const data = (await res.json()) as { items: EventList[] };
+  return data.items;
 }
 
 export async function fetchNews(): Promise<NewsItem[]> {
@@ -25,6 +21,6 @@ export async function fetchNews(): Promise<NewsItem[]> {
   if (!res.ok) {
     throw new Error(`News fetch failed: ${res.status}`);
   }
-  const data = (await res.json()) as Paginated<NewsItem>;
-  return data.results;
+  const data = (await res.json()) as { items: NewsItem[] };
+  return data.items;
 }
