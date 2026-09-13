@@ -130,7 +130,7 @@ function EventSlide({
         </div>
         {hasImage ? (
           <div className="flex h-full min-h-[280px] w-[54%] min-w-0 flex-col justify-center">
-            <div className="relative aspect-video w-full max-h-full min-h-0 shrink-0">
+            <div className="relative aspect-[21/9] w-full max-h-full min-h-0 shrink-0 overflow-hidden rounded-xl bg-secondary">
               <EventCardImage
                 src={event.image}
                 alt={event.image_alt}
@@ -162,7 +162,7 @@ function EventCardImage({
       src={src}
       alt={alt || ""}
       fill
-      className="object-contain object-center"
+      className="object-cover object-center"
       sizes="54vw"
       loading="eager"
       priority={priority}
@@ -210,7 +210,7 @@ function BottomCard({ event }: { event: EventList }) {
   const bg = categoryBackgroundColor(event.category.slug);
   return (
     <article className="flex w-[200px] shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card">
-      <div className="relative h-[100px] w-full bg-secondary">
+      <div className="relative aspect-[21/9] w-full bg-secondary">
         <ThumbImage src={event.image} alt={event.image_alt} fallback={bg} />
       </div>
       <div className="flex flex-1 flex-col gap-1 p-2.5">
