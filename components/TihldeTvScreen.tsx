@@ -11,12 +11,7 @@ import {
   formatEventDateShort,
   formatTodayLong,
 } from "@/lib/format";
-import {
-  buildSlides,
-  categoryBackgroundColor,
-  filterLaterEvents,
-  NEWS_FALLBACK_BG,
-} from "@/lib/slideData";
+import { buildSlides, filterLaterEvents } from "@/lib/slideData";
 import type { EventList, NewsItem, Slide } from "@/lib/types";
 
 const REFRESH_MS = 5 * 60 * 1000;
@@ -35,25 +30,17 @@ function useNowEverySecond(): Date | null {
 
 function SlideBackground({
   imageUrl,
-  fallbackColor,
   blur,
   priority,
 }: {
   imageUrl?: string;
-  fallbackColor: string;
   blur: boolean;
   priority?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
 
   if (!imageUrl || failed) {
-    return (
-      <div
-        className="absolute inset-0"
-        style={{ backgroundColor: fallbackColor }}
-        aria-hidden
-      />
-    );
+    return <div className="absolute inset-0 bg-background" aria-hidden />;
   }
 
   return (
@@ -87,14 +74,12 @@ function EventSlide({
 }) {
   const hasImage = Boolean(event.image?.trim());
   const imageUrl = event.image?.trim() || DEFAULT_COVER_IMAGE;
-  const bgColor = categoryBackgroundColor(event.category.slug);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
       <SlideBackground
         key={event.image?.trim() || `event-bg-${event.id}`}
         imageUrl={event.image}
-        fallbackColor={bgColor}
         blur={hasImage}
         priority={isActive}
       />
@@ -170,7 +155,6 @@ function NewsSlide({
       <SlideBackground
         key={news.image?.trim() || `news-bg-${news.id}`}
         imageUrl={news.image}
-        fallbackColor={NEWS_FALLBACK_BG}
         blur={hasImage}
         priority={isActive}
       />
@@ -192,14 +176,12 @@ function NewsSlide({
 }
 
 function BottomCard({ event }: { event: EventList }) {
-  const bg = categoryBackgroundColor(event.category.slug);
   return (
     <article className="flex w-[200px] shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card">
       <div className="relative aspect-[21/9] w-full bg-secondary">
         <ThumbImage
           src={event.image?.trim() || DEFAULT_COVER_IMAGE}
           alt={event.image_alt}
-          fallback={bg}
         />
       </div>
       <div className="flex flex-1 flex-col gap-1 p-2.5">
@@ -220,17 +202,13 @@ function BottomCard({ event }: { event: EventList }) {
 function ThumbImage({
   src,
   alt,
-  fallback,
 }: {
   src?: string;
   alt?: string;
-  fallback: string;
 }) {
   const [failed, setFailed] = useState(!src?.trim());
   if (!src?.trim() || failed) {
-    return (
-      <div className="h-full w-full" style={{ backgroundColor: fallback }} />
-    );
+    return <div className="h-full w-full bg-secondary" />;
   }
   return (
     <Image
