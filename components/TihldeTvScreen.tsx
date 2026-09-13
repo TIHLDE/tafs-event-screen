@@ -60,7 +60,7 @@ function SlideBackground({
         onError={() => setFailed(true)}
         aria-hidden
       />
-      <div className="absolute inset-0 bg-var(--background)/35" aria-hidden />
+      <div className="absolute inset-0 bg-background/35" aria-hidden />
     </>
   );
 }
