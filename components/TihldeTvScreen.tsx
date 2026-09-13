@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TihldeLogo } from "@/components/TihldeLogo";
 import { fetchAllEvents, fetchNews } from "@/lib/api";
+import { DEFAULT_COVER_IMAGE } from "@/lib/image";
 import {
   formatClockTime,
   formatEventDateLong,
@@ -85,6 +86,7 @@ function EventSlide({
   isActive: boolean;
 }) {
   const hasImage = Boolean(event.image?.trim());
+  const imageUrl = event.image?.trim() || DEFAULT_COVER_IMAGE;
   const bgColor = categoryBackgroundColor(event.category.slug);
 
   return (
@@ -97,28 +99,13 @@ function EventSlide({
         priority={isActive}
       />
       <div className="relative z-10 flex h-full w-full items-stretch px-10 py-8">
-        <div
-          className={
-            hasImage
-              ? "flex w-[46%] flex-col justify-center pr-6"
-              : "flex w-full flex-col items-center justify-center text-center px-8"
-          }
-        >
-          <div
-            className={
-              hasImage
-                ? "mb-0 flex w-full items-start justify-between gap-4"
-                : "mb-0 flex w-full max-w-4xl items-start justify-between gap-4"
-            }
-          >
+        <div className="flex w-[46%] flex-col justify-center pr-6">
+          <div className="mb-0 flex w-full items-start justify-between gap-4">
             <span className="rounded-full border border-border bg-black/35 px-3 py-1 text-sm font-medium text-primary backdrop-blur-sm">
               {event.category.label}
             </span>
           </div>
-          <h2
-            className="font-display text-[clamp(2.25rem,5vw,4.5rem)] font-bold leading-snug tracking-tight text-white line-clamp-2 pt-[0.1em] pb-[0.22em]"
-            style={{ maxWidth: hasImage ? "100%" : "56rem" }}
-          >
+          <h2 className="font-display text-[clamp(2.25rem,5vw,4.5rem)] font-bold leading-snug tracking-tight text-white line-clamp-2 pt-[0.1em] pb-[0.22em]">
             {event.title}
           </h2>
           <p className="mt-4 text-2xl text-white/95">
@@ -128,17 +115,15 @@ function EventSlide({
             {event.location}
           </p>
         </div>
-        {hasImage ? (
-          <div className="flex h-full min-h-[280px] w-[54%] min-w-0 flex-col justify-center">
-            <div className="relative aspect-[21/9] w-full max-h-full min-h-0 shrink-0 overflow-hidden rounded-xl bg-secondary">
-              <EventCardImage
-                src={event.image}
-                alt={event.image_alt}
-                priority={isActive}
-              />
-            </div>
+        <div className="flex h-full min-h-[280px] w-[54%] min-w-0 flex-col justify-center">
+          <div className="relative aspect-[21/9] w-full max-h-full min-h-0 shrink-0 overflow-hidden rounded-xl bg-secondary">
+            <EventCardImage
+              src={imageUrl}
+              alt={event.image_alt}
+              priority={isActive}
+            />
           </div>
-        ) : null}
+        </div>
       </div>
     </div>
   );
@@ -211,7 +196,11 @@ function BottomCard({ event }: { event: EventList }) {
   return (
     <article className="flex w-[200px] shrink-0 flex-col overflow-hidden rounded-lg border border-border bg-card">
       <div className="relative aspect-[21/9] w-full bg-secondary">
-        <ThumbImage src={event.image} alt={event.image_alt} fallback={bg} />
+        <ThumbImage
+          src={event.image?.trim() || DEFAULT_COVER_IMAGE}
+          alt={event.image_alt}
+          fallback={bg}
+        />
       </div>
       <div className="flex flex-1 flex-col gap-1 p-2.5">
         <h3 className="line-clamp-2 text-xs font-bold leading-snug text-white">
